@@ -1,11 +1,22 @@
-define([], function() {
+define(["libs/underscore"], function() {
 
   function init ($el) {
-    var canvas, context, canvaso, contexto, lines = [], animation = { inprogress: false, skip: false };
+    var canvas, context, canvaso, contexto, lines = [], animation = { inprogress: false, skip: false }, callbacks = [];
 
     // The general-purpose event handler. This function just determines the mouse
     // position relative to the canvas element.
     function ev_canvas (ev) {
+      if (animation.inprogress && ev.type=="mousedown") {
+        animation.skip = true;
+        return;
+      }
+      if (ev.type=="mouseup") {
+        // pass last line as argument
+        _.each(callbacks, function(callback) {
+          callback();
+        });
+      }
+      
       if (ev.layerX || ev.layerX == 0) { // Firefox
         ev._x = ev.layerX;
         ev._y = ev.layerY;
@@ -237,7 +248,7 @@ define([], function() {
       return l;
     }
     
-    function draw(x, y, data, delay, steps, callback) {
+    function draw(x, y, data, delay, steps, callback, skip_callback) {
       // TODO: support delay
       
       var wrapped = [];
@@ -250,13 +261,27 @@ define([], function() {
       });
 
       if (delay) {
+        animation.inprogress = true;
         if (!steps) steps=1;
         var i=0;
         var d = function() {
           while (i<steps) {
-            if (!wrapped.length) {
-              if (callback) callback();
+            if (animation.skip) {
+              _.each(wrapped, function(p) {
+                lines.push(p);
+              });
+              img_update();
+              animation.inprogress = false;
+              animation.skip = false;
               clearInterval(interval);
+              if (skip_callback) skip_callback();
+              if (callback) callback();
+              return;
+            }
+            if (!wrapped.length) {
+              clearInterval(interval);
+              animation.inprogress = false;
+              if (callback) callback();
               return;
             }
             lines.push(wrapped[0]);
@@ -282,7 +307,11 @@ define([], function() {
       contexto.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    return {get:get, draw:draw, clear:clear};
+    function addCallback(callback) {
+      callbacks.push(callback);
+    }
+    
+    return {get:get, draw:draw, clear:clear, addCallback:addCallback};
   }
 
   return {init:init};
