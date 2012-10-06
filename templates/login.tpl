@@ -3,7 +3,12 @@
     <canvas id="main-canvas" width="200" height="200">
     </canvas>
   </div>
-  <div>Login page.</div>
+  <form>
+  <div><span>Nickname: </span><input type="text" id="login" /></div>
+  <div><span>Password: </span><input type="password" id="pass" /></div>
+  <div><input type="submit" id="submit" value="Login" /></div>
+  </form>
+  <p>You don't have to register. If nickname is available, your account will be automatically created.</p>
   <a href="#" id="return">Return to main menu.</a>
   <div class="clear"></div>
 </div>

@@ -26,6 +26,9 @@ h1 {
   font-weight: 400;
   padding-top: 30px;
 }
+#wrapper {
+  margin: 30px auto;
+}
 #wrapper.hidden {
   opacity: 0;
 }
@@ -34,7 +37,7 @@ h1 {
   background-image: url('data/logo.png');
   width: 365px;
   height: 250px;
-  margin-top: 20px;
+  margin-top: 0px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 242px;
@@ -83,7 +86,7 @@ a:hover {
 }
 #login {
   width: 500px;
-  margin: 30px auto;
+  margin: 0 auto;
   text-align: left;
   position: relative;
 }
@@ -100,4 +103,15 @@ a:hover {
   bottom: 21px;
   position: absolute;
   left: 220px;
+}
+#login input {
+  width: 150px;
+  margin: 3px;
+}
+#login #submit {
+  width: 233px;
+}
+#login span {
+  display: inline-block;
+  min-width: 80px;
 }

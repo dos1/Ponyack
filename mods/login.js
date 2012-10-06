@@ -16,6 +16,16 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
       window.location.reload();
     });
 
+    $node.find('form').on('submit', function() {
+      $('#wrapper').fadeOut(1000, function() {
+        $node.html('Please wait...');
+        $('#wrapper').fadeIn(1000, function() {
+          window.location.reload();
+        });
+      });
+      return false;
+    });
+
     $('#wrapper').fadeIn(1000);
   }
   
