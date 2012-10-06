@@ -237,7 +237,7 @@ define([], function() {
       return l;
     }
     
-    function draw(data, delay, steps) {
+    function draw(data, delay, steps, callback) {
       // TODO: support delay
       
       var wrapped = [];
@@ -254,20 +254,24 @@ define([], function() {
         var d = function() {
           var i=0;
           while (i<steps) {
-            if (!wrapped.length) return false;
+            if (!wrapped.length) {
+              if (callback) callback();
+              clearInterval(interval);
+              return;
+            }
             lines.push(wrapped[0]);
             wrapped.shift();
             img_update();
             i++;
           }
-          return true;
         };
-        setInterval(d, delay);
+        var interval = setInterval(d, delay);
       } else {
         _.each(wrapped, function(p) {
           lines.push(p);
         });
         img_update();
+        if (callback) callback();
       }
     }
     
