@@ -1,3 +1,4 @@
 define(['libs/jquery'], function() {
-  $(function() { alert('It works!'); });
+  $('#loading').fadeOut(1000);
+  $('h1, #content').fadeIn(1000);
 });
