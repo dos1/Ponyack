@@ -1,5 +1,5 @@
 define([], function() {
- var canvas, context, canvaso, contexto;
+ var canvas, context, canvaso, contexto, lines = [];
 
   // The active tool instance.
   var tool;
@@ -57,6 +57,7 @@ define([], function() {
     // Attach the mousedown, mousemove and mouseup event listeners.
     canvas.addEventListener('mousedown', ev_canvas, false);
     canvas.addEventListener('mousemove', ev_canvas, false);
+    canvas.addEventListener('mouseout', ev_canvas, false);
     canvas.addEventListener('mouseup',   ev_canvas, false);
   }
 
@@ -89,8 +90,25 @@ define([], function() {
   // #imageTemp is cleared. This function is called each time when the user 
   // completes a drawing operation.
   function img_update () {
-		contexto.drawImage(canvas, 0, 0);
-		context.clearRect(0, 0, canvas.width, canvas.height);
+    context.lineJoin = "round";
+
+    for(var i=0; i < lines.length; i++)
+    {
+      if (!lines[i][3]) {
+        context.beginPath();
+        if (!lines[i][2] && i){
+          context.moveTo(lines[i-1][0], lines[i-1][1]);
+        } else {
+          context.moveTo(lines[i][0]-1, lines[i][1]);
+        }
+        context.lineTo(lines[i][0], lines[i][1]);
+        context.closePath();
+        context.stroke();
+        lines[i][3]=true;
+      }
+    }
+    contexto.drawImage(canvas, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   // This object holds the implementation of each drawing tool.
@@ -104,9 +122,12 @@ define([], function() {
     // This is called when you start holding down the mouse button.
     // This starts the pencil drawing.
     this.mousedown = function (ev) {
-        context.beginPath();
-        context.moveTo(ev._x, ev._y);
-        tool.started = true;
+      tool.started = true;
+      lines.push([ev._x, ev._y, true, false]);
+    };
+
+    this.mouseout = function (ev) {
+      tool.started = false;
     };
 
     // This function is called every time you move the mouse. Obviously, it only 
@@ -114,18 +135,14 @@ define([], function() {
     // the mouse button).
     this.mousemove = function (ev) {
       if (tool.started) {
-        context.lineTo(ev._x, ev._y);
-        context.stroke();
+        lines.push([ev._x, ev._y, false, false]);
+        img_update();
       }
     };
 
     // This is called when you release the mouse button.
     this.mouseup = function (ev) {
-      if (tool.started) {
-        tool.mousemove(ev);
-        tool.started = false;
-        img_update();
-      }
+      tool.started = false;
     };
   };
 
