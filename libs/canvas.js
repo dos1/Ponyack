@@ -248,6 +248,12 @@ define(["libs/underscore"], function() {
           l.push(tmp);
           tmp={ points:[], type: 'pencil' };
         }
+        if (i>0) {
+          if (lines[i-1][0] == lines[i][0] && lines[i-1][1] == lines[i][1]) {
+            // don't insert duplicated entries
+            continue;
+          }
+        }
         tmp.points.push({ x: lines[i][0], y: lines[i][1] });
       }
       if (tmp.points.length) {

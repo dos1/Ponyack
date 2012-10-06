@@ -26,11 +26,23 @@ console.log("Max:");
 console.log("x =",maxx);
 console.log("y =",maxy);
 
+var newdata = [];
+
 _.each(data, function(d) {
-  _.each(d.points, function(point) {
+  var n = {points: [], type: d.type};
+  var prev;
+  _.each(d.points, function(point, idx) {
     point.x -= minx;
     point.y -= miny;
+    if (prev) {
+      if ((point.x == prev.x) && (point.y == prev.y)) {
+        return;
+      }
+    }
+    n.points.push(point);
+    prev = point;
   });
+  newdata.push(n);
 });
 
-fs.writeFileSync(process.argv[2], JSON.stringify(data));
+fs.writeFileSync(process.argv[2], JSON.stringify(newdata));

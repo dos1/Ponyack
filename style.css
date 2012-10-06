@@ -81,3 +81,23 @@ a, a:visited, a:hover, a:active {
 a:hover {
   text-decoration: none;
 }
+#login {
+  width: 500px;
+  margin: 30px auto;
+  text-align: left;
+  position: relative;
+}
+#login #canvases {
+  width: 200px;
+  height: 200px;
+  float: left;
+  margin-right: 20px;
+}
+.clear {
+  clear: both;
+}
+#login #return {
+  bottom: 21px;
+  position: absolute;
+  left: 220px;
+}
