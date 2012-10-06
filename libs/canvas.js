@@ -1,7 +1,7 @@
 define([], function() {
 
   function init ($el) {
-    var canvas, context, canvaso, contexto, lines = [];
+    var canvas, context, canvaso, contexto, lines = [], animation = { inprogress: false, skip: false };
 
     // The general-purpose event handler. This function just determines the mouse
     // position relative to the canvas element.
@@ -237,22 +237,22 @@ define([], function() {
       return l;
     }
     
-    function draw(data, delay, steps, callback) {
+    function draw(x, y, data, delay, steps, callback) {
       // TODO: support delay
       
       var wrapped = [];
       _.each(data, function(d) {
         var started = true;
         _.each(d.points, function(point) {
-          wrapped.push([point.x, point.y, started, false]);
+          wrapped.push([point.x+x, point.y+y, started, false]);
           started = false;
         });
       });
 
       if (delay) {
         if (!steps) steps=1;
+        var i=0;
         var d = function() {
-          var i=0;
           while (i<steps) {
             if (!wrapped.length) {
               if (callback) callback();
@@ -264,6 +264,7 @@ define([], function() {
             img_update();
             i++;
           }
+          i=i-steps;
         };
         var interval = setInterval(d, delay);
       } else {

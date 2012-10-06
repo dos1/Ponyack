@@ -1,4 +1,4 @@
-define(["libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/canvas", "libs/jquery"], function(Menu, Start, Canvas) {
+define(["libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/text!drawings/about.txt", "libs/text!drawings/explore.txt", "libs/canvas", "libs/jquery"], function(Menu, Start, About, Explore, Canvas) {
   var canvas = Canvas.init($('#main-canvas'));
   $('h1').click(function() {
     var c= canvas.get();
@@ -10,8 +10,11 @@ define(["libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/can
 
 // OMG OMG OMG :D
   
-  canvas.draw(JSON.parse(Menu), 1, 2, function() {
-
-  canvas.draw(JSON.parse(Start), 1, 5);
+  canvas.draw(30, 31, JSON.parse(Menu), 1, 3, function() {
+    canvas.draw(350, 0, JSON.parse(Start), 1, 6, function() {
+      canvas.draw(205, 111, JSON.parse(About), 1, 6, function() {
+        canvas.draw(35, 147, JSON.parse(Explore), 1, 6);
+      });
+    });
   });
 });
