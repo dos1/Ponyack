@@ -70,7 +70,7 @@ h1 {
 #content {
   text-align: center;
 }
-#canvases {
+#canvases, #canvases2 {
   position: relative;
   width: 600px;
   height: 300px;
@@ -78,7 +78,7 @@ h1 {
   margin: 0 auto;
   margin-bottom: 25px;
 }
-#imageTemp {
+.imageTemp {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -93,11 +93,14 @@ a, a:visited, a:hover, a:active {
 a:hover {
   text-decoration: none;
 }
-#login {
+#login, #create {
   width: 500px;
   margin: 0 auto;
   text-align: left;
   position: relative;
+}
+#create {
+  width: 650px;
 }
 #login #canvases {
   width: 200px;
@@ -105,13 +108,36 @@ a:hover {
   float: left;
   margin-right: 20px;
 }
+#create #canvases {
+  width: 400px;
+  height: 400px;
+  float: left;
+  margin-right: 20px;
+}
+#create #canvases2 {
+  width: 230px;
+  height: 230px;
+  margin: 0;
+  position: absolute;
+  right: 0px;
+  opacity: 0.5;
+}
+.toolbox {
+  margin-bottom: 10px;
+}
+.toolbox a {
+  display: block;
+}
 .clear {
   clear: both;
 }
-#login #return {
+#login #return, #create #done {
   bottom: 21px;
   position: absolute;
   left: 220px;
+}
+#create #done {
+  left: 420px;
 }
 #login input {
   width: 150px;

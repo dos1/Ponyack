@@ -212,7 +212,8 @@ define(["libs/underscore"], function() {
       return;
     }
 
-    canvas.id     = 'imageTemp';
+    canvas.id     = canvaso.id+'imageTemp';
+    canvas.setAttribute('class', 'imageTemp');
     canvas.width  = canvaso.width;
     canvas.height = canvaso.height;
     container.appendChild(canvas);

@@ -14,17 +14,19 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
     $node.find('#return').on('click', function() {
       //console.log(JSON.stringify(canvas.get()));
       window.location.reload();
+      return false;
     });
 
     $node.find('form').on('submit', function() {
       $('#wrapper').fadeOut(500, function() {
         $node.html('Please wait...');
         $('#wrapper').fadeIn(500, function() {
-          window.location.reload();
           // TODO: login here...
-          //define(["mods/create", function(Create) {
-          //  Create.init();
-          //});
+          require(["mods/create"], function(Create) {
+            $('#wrapper').fadeOut(500, function() {
+              Create.init();
+            });
+          });
         });
       });
       return false;
