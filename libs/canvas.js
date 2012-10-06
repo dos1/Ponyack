@@ -10,7 +10,7 @@ define(["libs/underscore"], function() {
         animation.skip = true;
         return;
       }
-      if (ev.type=="mouseup") {
+      if (ev.type=="mouseup" || ev.type=="mouseout") {
         // pass last line as argument
         _.each(callbacks, function(callback) {
           callback();
@@ -228,7 +228,7 @@ define(["libs/underscore"], function() {
     // Attach the mousedown, mousemove and mouseup event listeners.
     canvas.addEventListener('mousedown', ev_canvas, false);
     canvas.addEventListener('mousemove', ev_canvas, false);
-    canvas.addEventListener('mouseout', ev_canvas, false);
+    canvas.addEventListener('mouseout',  ev_canvas, false);
     canvas.addEventListener('mouseup',   ev_canvas, false);
 
     // public
