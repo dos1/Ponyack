@@ -17,10 +17,14 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
     });
 
     $node.find('form').on('submit', function() {
-      $('#wrapper').fadeOut(1000, function() {
+      $('#wrapper').fadeOut(500, function() {
         $node.html('Please wait...');
-        $('#wrapper').fadeIn(1000, function() {
+        $('#wrapper').fadeIn(500, function() {
           window.location.reload();
+          // TODO: login here...
+          //define(["mods/create", function(Create) {
+          //  Create.init();
+          //});
         });
       });
       return false;
