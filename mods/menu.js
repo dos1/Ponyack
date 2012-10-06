@@ -3,10 +3,10 @@ define(["mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.t
 
   var delay = 1;
   var skip = function() { delay = 0; };
-  canvas.draw(30, 31, JSON.parse(DMenu), 1, 3, function() {
-    canvas.draw(350, 0, JSON.parse(DStart), delay, 6, function() {
-      canvas.draw(205, 111, JSON.parse(DAbout), delay, 6, function() {
-        canvas.draw(35, 147, JSON.parse(DExplore), delay, 6);
+  canvas.draw(30, 31, JSON.parse(DMenu), 1, 2, function() {
+    canvas.draw(350, 0, JSON.parse(DStart), delay, 4, function() {
+      canvas.draw(205, 111, JSON.parse(DAbout), delay, 4, function() {
+        canvas.draw(35, 147, JSON.parse(DExplore), delay, 4);
       }, skip);
     }, skip);
   }, skip);
