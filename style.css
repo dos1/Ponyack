@@ -1,3 +1,7 @@
+body {
+  background-image: url('data/bg.jpg');
+  background-position: top center;
+}
 h1 {
   display: block;
   text-indent: -9999px;
