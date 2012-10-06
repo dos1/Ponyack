@@ -10,10 +10,17 @@ define(["libs/underscore"], function() {
         animation.skip = true;
         return;
       }
-      if (ev.type=="mouseup" || ev.type=="mouseout") {
+      if (tool.started && (ev.type=="mouseup" || ev.type=="mouseout")) {
         // pass last line as argument
+        var last = [];
+        var i = lines.length-1;
+        while (!lines[i][2]) {
+          last.unshift({x:lines[i][0],y:lines[i][1]});
+          i--;
+        }
+        last.unshift({x:lines[i][0],y:lines[i][1]});
         _.each(callbacks, function(callback) {
-          callback();
+          callback(last);
         });
       }
       

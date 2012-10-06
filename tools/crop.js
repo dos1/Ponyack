@@ -8,22 +8,28 @@ var _ = require('underscore');
 
 //console.log(JSON.parse(drawing));
 
-var x = 1/0, y=1/0; // Infinity
+var minx = 1/0, miny = 1/0, maxx = 0, maxy = 0; // Infinity
 
 _.each(data, function(d) {
   _.each(d.points, function(point) {
-    if (point.x < x) { x = point.x; }
-    if (point.y < y) { y = point.y; }
+    if (point.x < minx) { minx = point.x; }
+    if (point.y < miny) { miny = point.y; }
+    if (point.x > maxx) { maxx = point.x; }
+    if (point.y > maxy) { maxy = point.y; }
   });
 });
 
-console.log("x =",x);
-console.log("y =",y);
+console.log("Min:");
+console.log("x =",minx);
+console.log("y =",miny);
+console.log("Max:");
+console.log("x =",maxx);
+console.log("y =",maxy);
 
 _.each(data, function(d) {
   _.each(d.points, function(point) {
-    point.x -= x;
-    point.y -= y;
+    point.x -= minx;
+    point.y -= miny;
   });
 });
 
