@@ -39,6 +39,7 @@ h1 {
   margin-right: auto;
   padding-left: 242px;
   background-repeat: no-repeat;
+  text-align: left;
 }
 #loading {
   position: fixed;

@@ -1,10 +1,5 @@
 define(["libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/text!drawings/about.txt", "libs/text!drawings/explore.txt", "libs/canvas", "libs/jquery"], function(Menu, Start, About, Explore, Canvas) {
   var canvas = Canvas.init($('#main-canvas'));
-  /*$('h1').click(function() {
-    var c = canvas.get();
-    console.log(JSON.stringify(c));
-  });
-  $('h2').click(function() { canvas.clear(); });*/
 
   var delay = 1;
   var skip = function() { delay = 0; };
@@ -41,16 +36,19 @@ define(["libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/tex
     });
     var rect = {x:minx, y:miny, w:maxx-minx, h:maxy-miny};
     if (contains(rect, {x:350,y:0,w:237,h:299})) {
+      canvas.pause(true);
       $('#wrapper').fadeOut(500, function() {
         alert("Start");
         window.location.reload();
       });
     } else if (contains(rect, {x:205,y:111,w:150,h:134})) {
+      canvas.pause(true);
       $('#wrapper').fadeOut(500, function() {
         alert("About");
         window.location.reload();
       });
     } else if (contains(rect, {x:35,y:147,w:151,h:139})) {
+      canvas.pause(true);
       $('#wrapper').fadeOut(500, function() {
         alert("Explore");
         window.location.reload();

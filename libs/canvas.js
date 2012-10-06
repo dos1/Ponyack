@@ -1,11 +1,12 @@
 define(["libs/underscore"], function() {
 
   function init ($el) {
-    var canvas, context, canvaso, contexto, lines = [], animation = { inprogress: false, skip: false }, callbacks = [];
+    var canvas, context, canvaso, contexto, lines = [], animation = { inprogress: false, skip: false }, callbacks = [], paused = false;
 
     // The general-purpose event handler. This function just determines the mouse
     // position relative to the canvas element.
     function ev_canvas (ev) {
+      if (paused) return;
       if (animation.inprogress && ev.type=="mousedown") {
         animation.skip = true;
         return;
@@ -317,8 +318,12 @@ define(["libs/underscore"], function() {
     function addCallback(callback) {
       callbacks.push(callback);
     }
-    
-    return {get:get, draw:draw, clear:clear, addCallback:addCallback};
+
+    function pause(p) {
+      paused = p;
+    }
+
+    return {get:get, draw:draw, clear:clear, addCallback:addCallback, pause: pause};
   }
 
   return {init:init};
