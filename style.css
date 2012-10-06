@@ -3,7 +3,7 @@ body {
   background-position: top center;
   font-family: 'Open Sans', sans-serif;
 }
-#menu, #create, #login #canvases {
+#menu, #create, #canvases, #canvases2, canvas {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
