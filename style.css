@@ -27,8 +27,8 @@ h1 {
   display: block;
   background-image: url('data/logo.png');
   width: 365px;
-  height: 267px;
-  margin-top: 100px;
+  height: 250px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 242px;
@@ -50,4 +50,27 @@ h1 {
 }
 #content {
   text-align: center;
+}
+#canvases {
+  position: relative;
+  width: 600px;
+  height: 300px;
+  box-shadow: 0px 0px 3px #999;
+  margin: 0 auto;
+  margin-bottom: 25px;
+}
+#imageTemp {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+#footer {
+  text-align: center;
+  font-family: 'Open Sans Condensed', 'Open Sans', sans-serif;
+}
+a, a:visited, a:hover, a:active {
+  color: black;
+}
+a:hover {
+  text-decoration: none;
 }
