@@ -330,7 +330,23 @@ define(["libs/underscore"], function() {
       paused = p;
     }
 
-    return {get:get, draw:draw, clear:clear, addCallback:addCallback, pause: pause};
+    function undo() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      contexto.clearRect(0, 0, canvas.width, canvas.height);
+      var i = lines.length-1;
+      if (i<0) return;
+      while (!lines[i][2]) {
+        lines.pop();
+        i--;
+      }
+      lines.pop();
+      for (var i in lines) {
+        lines[i][3] = false;
+      }
+      img_update();
+    }
+
+    return {get:get, draw:draw, clear:clear, addCallback:addCallback, pause: pause, undo: undo};
   }
 
   return {init:init};

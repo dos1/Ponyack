@@ -14,8 +14,7 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
     
     $node.find('#undo').on('click', function() {
       //console.log(JSON.stringify(canvasderp.get()));
-      //canvas.undo();
-      alert('Not implemented yet!');
+      canvas.undo();
       return false;
     });
 
