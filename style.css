@@ -3,7 +3,7 @@ body {
   background-position: top center;
   font-family: 'Open Sans', sans-serif;
 }
-* {
+#menu, #create, #login #canvases {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -12,7 +12,7 @@ body {
   -o-user-select: none;
   user-select: none;
 }
-form, input {
+/*form, input {
   -webkit-touch-callout: all;
   -webkit-user-select: all;
   -khtml-user-select: all;
@@ -20,7 +20,7 @@ form, input {
   -ms-user-select: all;
   -o-user-select: all;
   user-select: all;
-}
+}*/
 h1, h2 {
   margin: 0;
 }
