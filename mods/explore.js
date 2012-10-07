@@ -12,7 +12,23 @@ define(["libs/text!templates/explore.tpl", "libs/text!drawings/about.txt", "libs
       return false;
     });
 
-    $('#wrapper').fadeIn(1000);
+    $.get('server/players', {}, function(d) {
+      _.each(d, function(u) {
+        $('<a href="#"></a>').appendTo($node.find('#players')).on('click', function() { 
+     $('#wrapper').fadeOut(500, function() {
+        $node.html('Please wait...');
+        $('#wrapper').fadeIn(500, function() {
+          require(["mods/game"], function(Game) {
+            $('#wrapper').fadeOut(500, function() {
+              Game.init(u.id, u.login);
+            });
+          });
+        });  
+     });        
+        }).text(u.login);
+      });
+      $('#wrapper').fadeIn(1000);
+    }, 'json');
   }
   
   return { init: init };

@@ -1,7 +1,6 @@
 <div id="game">
   <p>Hi <b>{{name}}</b>! Welcome in Ponyack!</p>
-  <p>Use keyboard arrows to move your character.</p>
-  <a href="#" id="logout">Logout</a>
+  <p>This is character created by <b>{{player}}</b>.</p>
   <div class="canvases">
     <canvas id="main-canvas" width="600" height="400">
     </canvas>

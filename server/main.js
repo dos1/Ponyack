@@ -175,7 +175,10 @@ app.post('/character', function(req, res) {
 });
 
 app.get('/character', function(req, res) {
-  db("SELECT * FROM characters WHERE uid = "+quoteStr(req.session.user.id), function(err, r) {
+  var user = 0;
+  if (req.session.user) user = req.session.user.id;
+  if (req.query.id) user = req.query.id;
+  db("SELECT * FROM characters WHERE uid = "+quoteStr(user), function(err, r) {
     if (err) throw(err);
     if (r[0][0]) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -186,6 +189,13 @@ app.get('/character', function(req, res) {
       res.write('');
       res.end();
     }
+  });
+});
+
+app.get('/players', function(req, res) {
+  db("SELECT users.login, users.id FROM users, characters WHERE characters.uid = users.id", function(err, r) {
+    if (err) throw(err);
+    res.json(r[0]);
   });
 });
 

@@ -1,14 +1,21 @@
-define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/underscore"], function(TGame, Canvas) {
+define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "libs/canvas", "libs/jquery", "libs/underscore"], function(TGame, TAnonGame, Canvas) {
 
   var $node;
 
-  function init() {
+  function init(id, name) {
     $node = $('#content');
-    var template=_.template(TGame);
-    $node.empty().append(template({name:$("<div></div>").text(window.user.login).html()}));
+    var template;
+    if (id) {
+      template=_.template(TAnonGame);
+    } else {
+      template=_.template(TGame);
+    }
+    $node.empty().append(template({name:$("<div></div>").text(window.user.login).html(), player: $("<div></div>").text(name).html() }));
 
     var chcanvas = Canvas.init($node.find('#character-canvas'));
     chcanvas.pause(true);
+
+   $node.find('#return').on('click', function() { window.location.reload(); return false; });
 
     $node.find('#logout').on('click', function() {
       //console.log(JSON.stringify(canvas.get()));
@@ -20,7 +27,9 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
       return false;
     });
 
-    $.get('server/character', {}, function(data) {
+    var data = {};
+    if (id) data.id = id;
+    $.get('server/character', data, function(data) {
       chcanvas.draw(0, 0, data, 1, 15);
       $('#wrapper').fadeIn(1000);
     }, 'json');
@@ -56,12 +65,18 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
     (function anim() {
       requestAnimFrame(anim);
       context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+      if (id) flip = false;
       if (flip) {
         context.save();
         context.scale(-1, 1);
       }
       var newx = flip ? -x-200 : x;
-      context.drawImage(chcontext.canvas, newx, y, 200, 200);
+      if (!id) {
+        context.drawImage(chcontext.canvas, newx, y, 200, 200);
+      }
+      else {
+        context.drawImage(chcontext.canvas, 100, 0);
+      }
       if (flip) {
         context.restore();
       }
