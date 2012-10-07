@@ -5,7 +5,7 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
   function init() {
     $node = $('#content');
     var template=_.template(TGame);
-    $node.empty().append(template({name:window.user.login}));
+    $node.empty().append(template({name:$("<div></div>").text(window.user.login).html()}));
 
     var chcanvas = Canvas.init($node.find('#character-canvas'));
     chcanvas.pause(true);
