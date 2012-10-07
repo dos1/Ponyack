@@ -8,7 +8,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-  console.log("Login try: ", req.param('login'));
+  console.log("Login try:", req.param('login'));
   if (req.param('login') === "dos") {
     res.send(JSON.stringify({status:'NOK'}));
   } else {
