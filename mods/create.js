@@ -25,8 +25,20 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
     });
     
     $node.find('#done').on('click', function() {
-      //console.log(JSON.stringify(canvas.get()));
-      window.location.reload();
+      var character = canvas.get();
+      $('#wrapper').fadeOut(500, function() {
+        $node.html('Please wait...');
+        $('#wrapper').fadeIn(500, function() {
+          $.post('server/character', {data:character}, function(data) {
+            window.user.hasCharacter = true;
+            require(["mods/game"], function(Game) {
+              $('#wrapper').fadeOut(500, function() {
+                Game.init();
+              });
+            });
+          }, 'json').error(function() { alert('Error!'); window.location.reload(); });
+        });
+      });
       return false;
     });
 

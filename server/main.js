@@ -69,6 +69,7 @@ function restrict(req, res, next) {
   if (req.session.user) {
     next();
   } else {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
     res.send(JSON.stringify({status:'Not logged in.'}));
   }
 }
@@ -96,11 +97,13 @@ app.post('/login', function(req, res){
         // or in this case the entire user object
         req.session.user = users[req.body.login];
         req.session.hasCharacter = false;
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.send(JSON.stringify({status:'OK', login: users[req.body.login].name, hasCharacter:false}));
       });
     }
 
     if (err && err!=="user") {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
       res.send(JSON.stringify({status:'NOK'}));
       return;
     }
@@ -123,6 +126,7 @@ app.get('/login', function(req, res) {
   var login = '';
   var hasCharacter = false;
   if (req.session.user) { login=req.session.user.name; hasCharacter=req.session.user.hasCharacter; }
+  res.writeHead(200, { 'Content-Type': 'application/json' });
   res.send(JSON.stringify({login:login, hasCharacter: hasCharacter}));
 });
 
@@ -134,6 +138,7 @@ app.post('/character', function(req, res) {
 });
 
 app.get('/character', function(req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
   res.send(JSON.stringify(req.session.user.character));
 });
 
