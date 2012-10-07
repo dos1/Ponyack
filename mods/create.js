@@ -29,6 +29,16 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
       window.location.reload();
       return false;
     });
+
+    $node.find('#logout').on('click', function() {
+      //console.log(JSON.stringify(canvas.get()));
+      $('#wrapper').fadeOut(1000, function() {
+        $.get('server/logout', {}, function() {
+          window.location.reload();
+        });
+      });
+      return false;
+    });
     
     $('#wrapper').fadeIn(1000);
   }

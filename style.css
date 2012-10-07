@@ -150,3 +150,8 @@ a:hover {
   display: inline-block;
   min-width: 80px;
 }
+#logout {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
