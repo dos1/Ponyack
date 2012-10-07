@@ -32,7 +32,7 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
 
     $node.find('#logout').on('click', function() {
       //console.log(JSON.stringify(canvas.get()));
-      $('#wrapper').fadeOut(1000, function() {
+      $('#wrapper').fadeOut(500, function() {
         $.get('server/logout', {}, function() {
           window.location.reload();
         });
