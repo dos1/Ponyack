@@ -10,6 +10,6 @@ define(['mods/menu','libs/jquery', 'libs/underscore'], function(Menu) {
       Menu.init();
       $('#loading').fadeOut(1000);
       $('#wrapper').hide().removeClass('hidden').fadeIn(1000);
-    }, 'json');
+    }, 'json').error(function() { alert('Server error - try again later!'); });
   });
 });

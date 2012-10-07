@@ -12,12 +12,12 @@ app.post('/login', function(req, res) {
   if (req.param('login') === "dos") {
     res.send(JSON.stringify({status:'NOK'}));
   } else {
-    res.send(JSON.stringify({status:'OK'}));
+    res.send(JSON.stringify({status:'OK', login:req.param('login'), hasCharacter: false}));
   }
 });
 
 app.get('/login', function(req, res) {
-  res.send(JSON.stringify({login:'dos'}));
+  res.send(JSON.stringify({login:''}));
 });
 
 app.listen(8910);

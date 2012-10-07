@@ -24,13 +24,22 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
         $node.html('Please wait...');
         $('#wrapper').fadeIn(500, function() {
           $.post('server/login', {login:login, pass:pass}, function(data) {
-            //var data={status:"OK"};
+            //var data={status:"OK", hasCharacter: false};
             if (data.status==="OK") {
-              require(["mods/create"], function(Create) {
-                $('#wrapper').fadeOut(500, function() {
-                  Create.init();
+              window.user = data;
+              if (data.hasCharacter) {
+                require(["mods/game"], function(Game) {
+                  $('#wrapper').fadeOut(500, function() {
+                    Game.init();
+                  });
                 });
-              });
+              } else {
+                require(["mods/create"], function(Create) {
+                  $('#wrapper').fadeOut(500, function() {
+                    Create.init();
+                  });
+                });
+              }
             } else {
               init();
               $node.prepend($('<div></div>').html('Wrong password or nickname already taken.'));

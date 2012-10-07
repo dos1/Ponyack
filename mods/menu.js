@@ -39,7 +39,23 @@ define(["mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.t
       if (contains(rect, {x:350,y:0,w:237,h:299})) {
         canvas.pause(true);
         $('#wrapper').fadeOut(500, function() {
-          Login.init();
+          if (window.user.login) {
+            if (window.user.hasCharacter) {
+              require(["mods/game"], function(Game) {
+                $('#wrapper').fadeOut(500, function() {
+                  Game.init();
+                });
+              });
+            } else {
+              require(["mods/create"], function(Create) {
+                $('#wrapper').fadeOut(500, function() {
+                  Create.init();
+                });
+              });
+            }
+          } else {
+            Login.init();
+          }
         });
       } else if (contains(rect, {x:205,y:111,w:150,h:134})) {
         canvas.pause(true);
