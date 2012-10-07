@@ -6,52 +6,66 @@ app.use(express.bodyParser());
 app.use(express.cookieParser('tajemne haslo ponyacka'));
 app.use(express.session());
 
+var qrMan = require("queriesManager")( {
+               "user": "ponyack",
+               "password": "ponyack",
+               "database": "ponyack",
+               "poolSize": 32,
+               "initQueries": false,
+               //"queriesModule": require("dosQueriesModule")
+               "log": true,
+               "cluster": false
+});
+
+function quoteStr(str, opts){
+                str = str + "";
+		opts = opts || {};
+		opts.pre = opts.pre || "";
+		opts.post = opts.post || "";
+		
+		opts.pre = "'" + opts.pre;
+		opts.post += "'";
+		
+		str =  str.replace(/\\/g, "\\\\")
+			.replace(/\x00/g, "\\\\0")
+			.replace(/\n/g, "\\n")
+			.replace(/\r/g, "\\r")
+			.replace(/\t/g, "\\t")
+			//.replace(/\b/g, "\\b")
+			.replace(/'/g, "\\'")
+			.replace(/"/g, "\\\"")
+			.replace(/\x1a/g, "\\\\Z");
+			
+		if(opts.escapeAll){
+			str = str.replace(/_/g, "\\_").replace(/%/g, "\\%");
+		}
+		return opts.pre + str + opts.post;
+	}
+
+qrMan(function(err, db){ 
+
 app.get('/', function(req, res) {
   res.send('Hello World');
 });
 
-/*app.post('/login', function(req, res) {
-  console.log("Login try:", req.param('login'));
-  if (req.param('login') === "Pirat") {
-    res.send(JSON.stringify({status:'NOK'}));
-  } else {
-    req.session.login = req.param('login');
-    res.send(JSON.stringify({status:'OK', login:req.session.login, hasCharacter: req.session.hasCharacter }));
-  }
-});
-
-app.get('/login', function(req, res) {
-  var login = '';
-  if (req.session) { login=req.session.login; }
-  res.send(JSON.stringify({login:login}));
-});
-
-app.get('/logout', function(req, res) {
-  req.session.destroy();
-  res.send('');
-});*/
-
-
-// dummy database
-
-var users = {
-  dos: { name: 'dos', hasCharacter: false }
-};
-
-// when you create a user, generate a salt
-// and hash the password ('qwerty' is the pass here)
-
-hash('qwerty', function(err, salt, hash){
-  if (err) throw err;
-  // store the salt & hash in the "db"
-  users.dos.salt = salt;
-  users.dos.hash = hash;
-});
-
-
-// Authenticate using our plain-object database of doom!
+// Authenticate using database
 function authenticate(name, pass, fn) {
-  if (!module.parent) console.log('authenticating %s:%s', name, pass);
+  if (!module.parent) console.log('authenticating %s', name);
+
+  db("SELECT * FROM users WHERE login="+quoteStr(name), function(err, answ) {
+    if (err) return fn(err);
+    if (!answ[0][0]) return fn('user');
+    hash(pass, answ[0][0].salt, function(err, hash){
+      if (err) return fn(err);
+      if (answ[0][0].pass===(new Buffer(hash).toString('base64'))) {
+        return fn(null, answ[0][0]);
+      } else {
+        return fn('pass');
+      }
+    });
+  });
+  return;
+
   var user = users[name];
   // query the db for the given username
   if (!user) return fn('user');
@@ -92,14 +106,17 @@ app.post('/login', function(req, res){
     function doauth() {
       // Regenerate session when signing in
       // to prevent fixation
-      req.session.regenerate(function(){
-        // Store the user's primary key
-        // in the session store to be retrieved,
-        // or in this case the entire user object
-        req.session.user = users[req.body.login];
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.write(JSON.stringify({status:'OK', login: users[req.body.login].name, hasCharacter: users[req.body.login].hasCharacter }));
-        res.end();
+      hasCharacter(user, function(err, hasCharacter) {
+        if (err) throw(err);
+        req.session.regenerate(function(){
+          // Store the user's primary key
+          // in the session store to be retrieved,
+          // or in this case the entire user object
+          req.session.user = user;
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.write(JSON.stringify({status:'OK', login: user.login, hasCharacter: hasCharacter }));
+          res.end();
+        });
       });
     }
 
@@ -113,10 +130,14 @@ app.post('/login', function(req, res){
       hash(req.body.pass, function(err, salt, hash){
         if (err) throw err;
         // store the salt & hash in the "db"
-        users[req.body.login] = { name: req.body.login, hasCharacter: false };
-        users[req.body.login].salt = salt;
-        users[req.body.login].hash = hash;
-        doauth();
+        db("INSERT INTO users SET login="+quoteStr(req.body.login)+", pass="+quoteStr(new Buffer(hash).toString('base64'))+", salt="+quoteStr(salt), function(err, result) {
+          if (err) throw err;
+          authenticate(req.body.login, req.body.pass, function(err, usr){
+            if (err) throw err;
+            user = usr;
+            doauth();
+          });
+        });
       });
     } else {
       doauth();
@@ -124,26 +145,50 @@ app.post('/login', function(req, res){
   });
 });
 
+var hasCharacter = function(user, callback) {
+  if (!user) return callback(false);
+  db("SELECT * FROM characters WHERE uid = "+quoteStr(user.id), function(err, r) {
+    if (err) callback(err);
+    if (r[0][0]) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  });
+};
+
 app.get('/login', function(req, res) {
   var login = '';
-  var hasCharacter = false;
-  if (req.session.user) { login=req.session.user.name; hasCharacter=req.session.user.hasCharacter; }
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.write(JSON.stringify({login:login, hasCharacter: hasCharacter}));
-  res.end();
+  hasCharacter(req.session.user, function(err, hasCharacter) {
+    if (req.session.user) { login=req.session.user.login; }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.write(JSON.stringify({login:login, hasCharacter: hasCharacter}));
+    res.end();
+  });
 });
 
 app.post('/character', function(req, res) {
-  users[req.session.user.name].character = JSON.parse(req.body.data);
-  users[req.session.user.name].hasCharacter = true;
-  req.session.user = users[req.session.user.name];
-  res.send('');
+  db("INSERT INTO characters SET uid = "+quoteStr(req.session.user.id)+", data = "+quoteStr(req.body.data), function(err, r) {
+    if (err) throw(err);
+    res.send('');
+  });
 });
 
 app.get('/character', function(req, res) {
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.write(JSON.stringify(req.session.user.character));
-  res.end();
+  db("SELECT * FROM characters WHERE uid = "+quoteStr(req.session.user.id), function(err, r) {
+    if (err) throw(err);
+    if (r[0][0]) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.write(r[0][0].data);
+      res.end();
+    } else {
+      res.writeHead(404);
+      res.write('');
+      res.end();
+    }
+  });
 });
 
 app.listen(8910);
+
+});
