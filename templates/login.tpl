@@ -4,7 +4,7 @@
     </canvas>
   </div>
   <form>
-  <div><span>Nickname: </span><input type="text" id="login" /></div>
+  <div><span>Nickname: </span><input type="text" id="nickname" /></div>
   <div><span>Password: </span><input type="password" id="pass" /></div>
   <div><input type="submit" id="submit" value="Login" /></div>
   </form>
