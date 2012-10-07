@@ -8,7 +8,7 @@
   <hr />
   <p>Remember that old story about Discord? Being defeated by two royal sisters and imprisoned in a stone? Forget that. That didn't happen here.
   Discord won that battle, so he could spread chaos without any limit.</p>
-  <p>And this is that part where thing go wrong.</p>
+  <p>And this is that part where things go wrong.</p>
   <p>What is this "chaos"? Philosophers asked themselves for ages if it's everything or rather nothing. We now know answer to this question.</p>
   <p>It's nothing. Nothing is left here. Unlimited chaos caused entire universe to collapse. Everything is now gone. Except one small thing...</p>
   <hr/>
