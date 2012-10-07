@@ -23,8 +23,8 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
       $('#wrapper').fadeOut(500, function() {
         $node.html('Please wait...');
         $('#wrapper').fadeIn(500, function() {
-          // TODO: login here...
-          $.post('/server/login', {login:login, pass:pass}, function(data) {
+          $.post('server/login', {login:login, pass:pass}, function(data) {
+            //var data={status:"OK"};
             if (data.status==="OK") {
               require(["mods/create"], function(Create) {
                 $('#wrapper').fadeOut(500, function() {

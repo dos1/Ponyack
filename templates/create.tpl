@@ -1,4 +1,5 @@
 <div id="create">
+  <p>Hi <b>{{name}}</b>! Just a few steps before you can start your first game...</p>
   <div id="canvases">
     <canvas id="main-canvas" width="400" height="400">
     </canvas>

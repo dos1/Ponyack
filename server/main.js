@@ -16,4 +16,8 @@ app.post('/login', function(req, res) {
   }
 });
 
+app.get('/login', function(req, res) {
+  res.send(JSON.stringify({login:'dos'}));
+});
+
 app.listen(8910);

@@ -5,7 +5,7 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
   function init() {
     $node = $('#content');
     var template=_.template(TCreate);
-    $node.empty().append(template());
+    $node.empty().append(template({name:window.user.login}));
     
     var canvas = Canvas.init($node.find('#main-canvas'));
     var canvasderp = Canvas.init($node.find('#secondary-canvas'));
