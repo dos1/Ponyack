@@ -60,8 +60,11 @@ define(["mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.t
       } else if (contains(rect, {x:205,y:111,w:150,h:134})) {
         canvas.pause(true);
         $('#wrapper').fadeOut(500, function() {
-          alert("About");
-          window.location.reload();
+              require(["mods/about"], function(About) {
+                $('#wrapper').fadeOut(500, function() {
+                  About.init();
+                });
+              });
         });
       } else if (contains(rect, {x:35,y:147,w:151,h:139})) {
         canvas.pause(true);

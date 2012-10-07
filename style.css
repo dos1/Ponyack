@@ -93,7 +93,7 @@ a, a:visited, a:hover, a:active {
 a:hover {
   text-decoration: none;
 }
-#login, #create {
+#login, #create, #about {
   width: 500px;
   margin: 0 auto;
   text-align: left;
@@ -102,7 +102,10 @@ a:hover {
 #create {
   width: 650px;
 }
-#login .canvases {
+#about {
+  width: 700px;
+}
+#login .canvases, #about .canvases {
   width: 200px;
   height: 200px;
   float: left;
