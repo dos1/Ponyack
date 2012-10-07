@@ -8,6 +8,7 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
     $node.empty().append(template({name:window.user.login}));
 
     var canvas = Canvas.init($node.find('#main-canvas'));
+    canvas.pause(true);
 
     $node.find('#logout').on('click', function() {
       //console.log(JSON.stringify(canvas.get()));
