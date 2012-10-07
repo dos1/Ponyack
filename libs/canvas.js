@@ -346,7 +346,7 @@ define(["libs/underscore"], function() {
       img_update();
     }
 
-    return {get:get, draw:draw, clear:clear, addCallback:addCallback, pause: pause, undo: undo};
+    return {get:get, draw:draw, clear:clear, addCallback:addCallback, pause: pause, undo: undo, getContext: function() { return contexto; }};
   }
 
   return {init:init};

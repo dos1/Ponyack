@@ -3,7 +3,7 @@ body {
   background-position: top center;
   font-family: 'Open Sans', sans-serif;
 }
-#menu, #create, #canvases, #canvases2, canvas {
+#menu, #create, .canvases, canvas {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -70,7 +70,7 @@ h1 {
 #content {
   text-align: center;
 }
-#canvases, #canvases2 {
+.canvases {
   position: relative;
   width: 600px;
   height: 300px;
@@ -102,19 +102,19 @@ a:hover {
 #create {
   width: 650px;
 }
-#login #canvases {
+#login .canvases {
   width: 200px;
   height: 200px;
   float: left;
   margin-right: 20px;
 }
-#create #canvases {
+#create .canvases {
   width: 400px;
   height: 400px;
   float: left;
   margin-right: 20px;
 }
-#create #canvases2 {
+#create .canvases2 {
   width: 230px;
   height: 230px;
   margin: 0;
@@ -161,7 +161,10 @@ a:hover {
   margin: 0 auto;
   text-align: left;
 }
-#game #canvases {
+#game .canvases {
   width: 600px;
   height: 400px;
+}
+.hidden-canvases {
+  display: none;
 }

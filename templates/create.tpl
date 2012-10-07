@@ -1,7 +1,7 @@
 <div id="create">
   <p>Hi <b>{{name}}</b>! Just a few steps before you can start your first game...</p>
   <a href="#" id="logout">Logout</a>
-  <div id="canvases">
+  <div class="canvases">
     <canvas id="main-canvas" width="400" height="400">
     </canvas>
   </div>
@@ -10,7 +10,7 @@
     <a href="#" id="undo">Undo</a>
     <a href="#" id="clear">Clear</a>
   </div>
-  <div id="canvases2">
+  <div class="canvases canvases2">
     <canvas id="secondary-canvas" width="230" height="230">
     </canvas>
   </div>

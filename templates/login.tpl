@@ -1,5 +1,5 @@
 <div id="login">
-  <div id="canvases">
+  <div class="canvases">
     <canvas id="main-canvas" width="200" height="200">
     </canvas>
   </div>
