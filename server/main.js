@@ -121,8 +121,20 @@ app.post('/login', function(req, res){
 
 app.get('/login', function(req, res) {
   var login = '';
-  if (req.session.user) { login=req.session.user.name; }
-  res.send(JSON.stringify({login:login}));
+  var hasCharacter = false;
+  if (req.session.user) { login=req.session.user.name; hasCharacter=req.session.user.hasCharacter; }
+  res.send(JSON.stringify({login:login, hasCharacter: hasCharacter}));
+});
+
+app.post('/character', function(req, res) {
+  users[req.session.user.name].character = JSON.parse(req.body.data);
+  users[req.session.user.name].hasCharacter = true;
+  req.session.user = users[req.session.user.name];
+  res.send('');
+});
+
+app.get('/character', function(req, res) {
+  res.send(JSON.stringify(req.session.user.character));
 });
 
 app.listen(8910);
