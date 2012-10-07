@@ -69,8 +69,11 @@ define(["mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.t
       } else if (contains(rect, {x:35,y:147,w:151,h:139})) {
         canvas.pause(true);
         $('#wrapper').fadeOut(500, function() {
-          alert("Explore");
-          window.location.reload();
+              require(["mods/explore"], function(Explore) {
+                $('#wrapper').fadeOut(500, function() {
+                  Explore.init();
+                });
+              });
         });
       } else {
         refresh();
