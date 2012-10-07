@@ -4,7 +4,7 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
 
   function init() {
     $node = $('#content');
-    var template=_.template(TCreate);
+    var template=_.template(TGame);
     $node.empty().append(template({name:window.user.login}));
 
     var canvas = Canvas.init($node.find('#main-canvas'));
@@ -20,7 +20,7 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
     });
 
     $.get('server/character', {}, function(data) {
-      canvas.draw(0, 0, data, 1, 5);
+      canvas.draw(100, 0, data, 1, 0);
       $('#wrapper').fadeIn(1000);
     }, 'json');
   }

@@ -29,7 +29,7 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
       $('#wrapper').fadeOut(500, function() {
         $node.html('Please wait...');
         $('#wrapper').fadeIn(500, function() {
-          $.post('server/character', {data:character}, function(data) {
+          $.post('server/character', {data:JSON.stringify(character)}, function(data) {
             window.user.hasCharacter = true;
             require(["mods/game"], function(Game) {
               $('#wrapper').fadeOut(500, function() {

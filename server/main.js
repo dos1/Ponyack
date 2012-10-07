@@ -35,7 +35,7 @@ app.get('/logout', function(req, res) {
 // dummy database
 
 var users = {
-  dos: { name: 'dos' }
+  dos: { name: 'dos', hasCharacter: false }
 };
 
 // when you create a user, generate a salt
@@ -70,7 +70,8 @@ function restrict(req, res, next) {
     next();
   } else {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.send(JSON.stringify({status:'Not logged in.'}));
+    res.write(JSON.stringify({status:'Not logged in.'}));
+    res.end();
   }
 }
 
@@ -96,22 +97,23 @@ app.post('/login', function(req, res){
         // in the session store to be retrieved,
         // or in this case the entire user object
         req.session.user = users[req.body.login];
-        req.session.hasCharacter = false;
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.send(JSON.stringify({status:'OK', login: users[req.body.login].name, hasCharacter:false}));
+        res.write(JSON.stringify({status:'OK', login: users[req.body.login].name, hasCharacter: users[req.body.login].hasCharacter }));
+        res.end();
       });
     }
 
     if (err && err!=="user") {
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.send(JSON.stringify({status:'NOK'}));
+      res.write(JSON.stringify({status:'NOK'}));
+      res.end();
       return;
     }
     if (err==="user") {
       hash(req.body.pass, function(err, salt, hash){
         if (err) throw err;
         // store the salt & hash in the "db"
-        users[req.body.login] = { name: req.body.login };
+        users[req.body.login] = { name: req.body.login, hasCharacter: false };
         users[req.body.login].salt = salt;
         users[req.body.login].hash = hash;
         doauth();
@@ -127,7 +129,8 @@ app.get('/login', function(req, res) {
   var hasCharacter = false;
   if (req.session.user) { login=req.session.user.name; hasCharacter=req.session.user.hasCharacter; }
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.send(JSON.stringify({login:login, hasCharacter: hasCharacter}));
+  res.write(JSON.stringify({login:login, hasCharacter: hasCharacter}));
+  res.end();
 });
 
 app.post('/character', function(req, res) {
@@ -139,7 +142,8 @@ app.post('/character', function(req, res) {
 
 app.get('/character', function(req, res) {
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.send(JSON.stringify(req.session.user.character));
+  res.write(JSON.stringify(req.session.user.character));
+  res.end();
 });
 
 app.listen(8910);
