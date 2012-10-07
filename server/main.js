@@ -1,5 +1,5 @@
 var express = require('express');
-var hash = require('./pass').hash;
+var hash = require('pwd').hash;
 var app = express();
 
 app.use(express.bodyParser());
