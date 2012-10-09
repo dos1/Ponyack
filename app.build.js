@@ -5,5 +5,6 @@
   include: ["libs/require"],
   uglify: {
     max_line_length: 1000
-  }
+  },
+  findNestedDependencies: true
 })

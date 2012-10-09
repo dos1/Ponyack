@@ -13,7 +13,7 @@ var qrMan = require("queriesManager")( {
                "poolSize": 32,
                "initQueries": false,
                //"queriesModule": require("dosQueriesModule")
-               "log": true,
+               "log": false,
                "cluster": false
 });
 
@@ -45,6 +45,7 @@ function quoteStr(str, opts){
 qrMan(function(err, db){ 
 
 app.get('/', function(req, res) {
+  console.log('GET /', req.session.user ? req.session.user.login : -1);
   res.send('Hello World');
 });
 
@@ -89,11 +90,12 @@ function restrict(req, res, next) {
   }
 }
 
-app.get('/restricted', restrict, function(req, res){
+/*app.get('/restricted', restrict, function(req, res){
   res.send('Wahoo! restricted area');
-});
+});*/
 
 app.get('/logout', function(req, res){
+  console.log('GET /logout', req.session.user ? req.session.user.login : -1);
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy();
@@ -101,6 +103,7 @@ app.get('/logout', function(req, res){
 });
 
 app.post('/login', function(req, res){
+  console.log('POST /login', req.body.login);
   authenticate(req.body.login, req.body.pass, function(err, user){
 
     function doauth() {
@@ -112,6 +115,7 @@ app.post('/login', function(req, res){
           // Store the user's primary key
           // in the session store to be retrieved,
           // or in this case the entire user object
+          console.log('success');
           req.session.user = user;
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.write(JSON.stringify({status:'OK', login: user.login, hasCharacter: hasCharacter }));
@@ -121,12 +125,14 @@ app.post('/login', function(req, res){
     }
 
     if (err && err!=="user") {
+      console.log('error');
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.write(JSON.stringify({status:'NOK'}));
       res.end();
       return;
     }
     if (err==="user") {
+      console.log('registering');
       hash(req.body.pass, function(err, salt, hash){
         if (err) throw err;
         // store the salt & hash in the "db"
@@ -150,14 +156,17 @@ var hasCharacter = function(user, callback) {
   db("SELECT * FROM characters WHERE uid = "+quoteStr(user.id), function(err, r) {
     if (err) callback(err);
     if (r[0][0]) {
+      console.log('hasCharacter=true', user.login);
       callback(null, true);
     } else {
+      console.log('hasCharacter=false', user.login);
       callback(null, false);
     }
   });
 };
 
 app.get('/login', function(req, res) {
+  console.log('GET /login', req.session.user ? req.session.user.login : -1);
   var login = '';
   hasCharacter(req.session.user, function(err, hasCharacter) {
     if (req.session.user) { login=req.session.user.login; }
@@ -167,7 +176,8 @@ app.get('/login', function(req, res) {
   });
 });
 
-app.post('/character', function(req, res) {
+app.post('/character', restrict, function(req, res) {
+  console.log('POST /character', req.session.user ? req.session.user.login : -1);
   db("INSERT INTO characters SET uid = "+quoteStr(req.session.user.id)+", data = "+quoteStr(req.body.data), function(err, r) {
     if (err) throw(err);
     res.send('');
@@ -178,6 +188,7 @@ app.get('/character', function(req, res) {
   var user = 0;
   if (req.session.user) user = req.session.user.id;
   if (req.query.id) user = req.query.id;
+  console.log('GET /character', user, req.session.user ? req.session.user.id : -1, req.session.user ? req.session.user.login : -1);
   db("SELECT * FROM characters WHERE uid = "+quoteStr(user), function(err, r) {
     if (err) throw(err);
     if (r[0][0]) {
@@ -193,6 +204,7 @@ app.get('/character', function(req, res) {
 });
 
 app.get('/players', function(req, res) {
+  console.log('GET /players', req.session.user ? req.session.user.login : -1);
   db("SELECT users.login, users.id FROM users, characters WHERE characters.uid = users.id", function(err, r) {
     if (err) throw(err);
     res.json(r[0]);

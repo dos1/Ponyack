@@ -26,6 +26,10 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
     
     $node.find('#done').on('click', function() {
       var character = canvas.get();
+      if (character.length===0) {
+        alert('You can\'t set empty drawing as your character!');
+        return false;
+      }
       $('#wrapper').fadeOut(500, function() {
         $node.html('Please wait...');
         $('#wrapper').fadeIn(500, function() {

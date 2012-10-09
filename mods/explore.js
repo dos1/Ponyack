@@ -24,7 +24,7 @@ define(["libs/text!templates/explore.tpl", "libs/text!drawings/about.txt", "libs
             });
           });
         });  
-     });        
+     }); return false;       
         }).text(u.login);
       });
       $('#wrapper').fadeIn(1000);
