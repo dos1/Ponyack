@@ -2,20 +2,25 @@ var express = require('express');
 var hash = require('pwd').hash;
 var app = express();
 
+var config = require("./config.js");
+
 app.use(express.bodyParser());
-app.use(express.cookieParser('tajemne haslo ponyacka'));
+app.use(express.cookieParser(config.cookies.secret));
 app.use(express.session());
 
-var qrMan = require("queriesManager")( {
-               "user": "ponyack",
-               "password": "ponyack",
-               "database": "ponyack",
-               "poolSize": 32,
-               "initQueries": false,
-               //"queriesModule": require("dosQueriesModule")
-               "log": false,
-               "cluster": false
-});
+var dbConfig = {
+  "poolSize": 32,
+  "initQueries": false,
+  //"queriesModule": require("dosQueriesModule")
+  "log": false,
+  "cluster": false
+};
+
+for (var i in config.db) {
+  dbConfig[i] = config.db[i];
+}
+
+var qrMan = require("queriesManager")(dbConfig);
 
 function quoteStr(str, opts){
                 str = str + "";
@@ -44,7 +49,7 @@ function quoteStr(str, opts){
 
 qrMan(function(err, db){ 
 
-app.get('/', function(req, res) {
+app.get(config.server.prefix+'/', function(req, res) {
   console.log('GET /', req.session.user ? req.session.user.login : -1);
   res.send('Hello World');
 });
@@ -90,11 +95,11 @@ function restrict(req, res, next) {
   }
 }
 
-/*app.get('/restricted', restrict, function(req, res){
+/*app.get(config.server.prefix+'/restricted', restrict, function(req, res){
   res.send('Wahoo! restricted area');
 });*/
 
-app.get('/logout', function(req, res){
+app.get(config.server.prefix+'/logout', function(req, res){
   console.log('GET /logout', req.session.user ? req.session.user.login : -1);
   // destroy the user's session to log them out
   // will be re-created next request
@@ -102,7 +107,7 @@ app.get('/logout', function(req, res){
   res.send('');
 });
 
-app.post('/login', function(req, res){
+app.post(config.server.prefix+'/login', function(req, res){
   console.log('POST /login', req.body.login);
   authenticate(req.body.login, req.body.pass, function(err, user){
 
@@ -165,7 +170,7 @@ var hasCharacter = function(user, callback) {
   });
 };
 
-app.get('/login', function(req, res) {
+app.get(config.server.prefix+'/login', function(req, res) {
   console.log('GET /login', req.session.user ? req.session.user.login : -1);
   var login = '';
   hasCharacter(req.session.user, function(err, hasCharacter) {
@@ -176,7 +181,7 @@ app.get('/login', function(req, res) {
   });
 });
 
-app.post('/character', restrict, function(req, res) {
+app.post(config.server.prefix+'/character', restrict, function(req, res) {
   console.log('POST /character', req.session.user ? req.session.user.login : -1);
   db("INSERT INTO characters SET uid = "+quoteStr(req.session.user.id)+", data = "+quoteStr(req.body.data), function(err, r) {
     if (err) throw(err);
@@ -184,7 +189,7 @@ app.post('/character', restrict, function(req, res) {
   });
 });
 
-app.get('/character', function(req, res) {
+app.get(config.server.prefix+'/character', function(req, res) {
   var user = 0;
   if (req.session.user) user = req.session.user.id;
   if (req.query.id) user = req.query.id;
@@ -203,7 +208,7 @@ app.get('/character', function(req, res) {
   });
 });
 
-app.get('/players', function(req, res) {
+app.get(config.server.prefix+'/players', function(req, res) {
   console.log('GET /players', req.session.user ? req.session.user.login : -1);
   db("SELECT users.login, users.id FROM users, characters WHERE characters.uid = users.id", function(err, r) {
     if (err) throw(err);
@@ -211,6 +216,7 @@ app.get('/players', function(req, res) {
   });
 });
 
-app.listen(8910);
+app.listen(config.server.port);
+console.log("Server started.");
 
 });
