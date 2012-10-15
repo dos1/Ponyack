@@ -12,7 +12,7 @@ define(["libs/text!templates/character.tpl", "libs/canvas", "libs/jquery", "libs
     var chcanvas = Canvas.init($('<canvas width="400" height="400"></canvas>'));
 
     $.get('server/character', {id:id}, function(data) {
-      chcanvas.draw(0, 0, data, 1, 15);
+      chcanvas.draw(0, 0, data, 10, 15);
 
       $.get('server/player', {id:id}, function(user) {
         $node.find('.playerName').text(user.login);
