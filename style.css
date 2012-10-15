@@ -166,13 +166,13 @@ a:hover {
   right: 0px;
   top: 0px;
 }
-#game {
+#game, #character {
   position: relative;
   width: 600px;
   margin: 0 auto;
   text-align: left;
 }
-#game .canvases {
+#game .canvases, #character .canvases {
   width: 600px;
   height: 400px;
 }
@@ -208,13 +208,13 @@ hr {
 .whatsnew a:hover {
   text-decoration: underline;
 }
-#game #prev, #game #next {
+#character #prev, #character #next {
   position: absolute;
   top: 255px;
 }
-#game #prev {
+#character #prev {
   left: -30px;
 }
-#game #next {
+#character #next {
   right: -30px;
 }

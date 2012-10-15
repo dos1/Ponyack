@@ -43,8 +43,8 @@ define(['mods/menu','libs/path', 'libs/jquery', 'libs/underscore'], function(Men
   });
 
   AddRoute("/explore/:id", function(cb, params) {
-    require(['mods/game'], function(Game) {  
-      Game.init(params.id, cb);
+    require(['mods/character'], function(Character) {  
+      Character.init(params.id, cb);
     });
   });
 

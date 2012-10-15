@@ -1,4 +1,4 @@
-define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "libs/canvas", "libs/jquery", "libs/underscore"], function(TGame, TAnonGame, Canvas) {
+define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/underscore"], function(TGame, Canvas) {
 
   var $node;
 
@@ -15,18 +15,12 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
 
     $node = $('#content');
     var template;
-    if (id) {
-      template=_.template(TAnonGame);
-    } else {
-      template=_.template(TGame);
-    }
+    template=_.template(TGame);
     $node.empty().append(template({name:$("<div></div>").text(window.user.login).html() }));
 
     var chcanvas = Canvas.init($('<canvas width="400" height="400"></canvas>'));
 
-    var data = {};
-    if (id) data.id = id;
-    $.get('server/character', data, function(data) {
+    $.get('server/character', {}, function(data) {
       chcanvas.draw(0, 0, data, 1, 15);
       $('#wrapper').fadeIn(1000);
     }, 'json');
@@ -61,18 +55,12 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
     (function anim() {
       requestAnimFrame(anim);
       context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-      if (id) flip = false;
       if (flip) {
         context.save();
         context.scale(-1, 1);
       }
       var newx = flip ? -x-200 : x;
-      if (!id) {
-        context.drawImage(chcontext.canvas, newx, y, 200, 200);
-      }
-      else {
-        context.drawImage(chcontext.canvas, 100, 0);
-      }
+      context.drawImage(chcontext.canvas, newx, y, 200, 200);
       if (flip) {
         context.restore();
       }
@@ -90,24 +78,7 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
       } 
     })();
 
-    if (id) {
-      $.get('server/player', {id:id}, function(user) {
-        $node.find('.playerName').text(user.login);
-        if (user.next>0) {
-          $node.find('#next').attr('href', '#/explore/'+user.next);
-        } else {
-          $node.find('#next').remove();
-        }
-        if (user.prev>0) {
-          $node.find('#prev').attr('href', '#/explore/'+user.prev);
-        } else {
-          $node.find('#prev').remove();
-        }
-        if (cb) { cb(); }
-      }, 'json');
-    } else {
-      if (cb) { cb(); }
-    }
+    if (cb) { cb(); }
   }
 
   return { init: init };

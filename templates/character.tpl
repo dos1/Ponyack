@@ -1,4 +1,4 @@
-<div id="game">
+<div id="character">
   <p>Hi <b>{{name}}</b>! Welcome in Ponyack!</p>
   <p>This is character created by <b class="playerName"></b>.</p>
   <div class="canvases">
