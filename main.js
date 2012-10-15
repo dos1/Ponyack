@@ -48,6 +48,32 @@ define(['mods/menu','libs/path', 'libs/jquery', 'libs/underscore'], function(Men
     });
   });
 
+  AddRoute("/login", function(cb) {
+    require(['mods/login'], function(Login) {
+      Login.init(cb);
+    });
+  });
+
+  AddRoute("/game", function(cb) {
+    require(['mods/game'], function(Game) {
+      Game.init(null, cb);
+    });
+  });
+
+  AddRoute("/game/create", function(cb) {
+    require(['mods/create'], function(Create) {
+      Create.init(cb);
+    });
+  });
+
+  AddRoute("/logout", function(cb) {
+    $.get('server/logout', {}, function() {
+      $('#wrapper').css('visibility','hidden');
+      window.location = '#/';
+      window.location.reload();
+    });
+  });
+
   Path.root("#/");
   Path.rescue(function() {
     $('#content').html('Error, path not found.').show();

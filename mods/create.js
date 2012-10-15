@@ -2,7 +2,17 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
   
   var $node;
   
-  function init() {
+  function init(cb) {
+
+    if (window.user.hasCharacter) {
+      window.location = '#/game';
+      return;
+    }
+    if (!window.user.login) {
+      window.location = '#/login';
+      return;
+    }
+
     $node = $('#content');
     var template=_.template(TCreate);
     $node.empty().append(template({name:$("<div></div>").text(window.user.login).html()}));
@@ -35,28 +45,14 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
         $('#wrapper').fadeIn(500, function() {
           $.post('server/character', {data:JSON.stringify(character)}, function(data) {
             window.user.hasCharacter = true;
-            require(["mods/game"], function(Game) {
-              $('#wrapper').fadeOut(500, function() {
-                Game.init();
-              });
-            });
+            window.location = '#/game';
           }, 'json').error(function() { alert('Error!'); window.location.reload(); });
         });
       });
       return false;
     });
 
-    $node.find('#logout').on('click', function() {
-      //console.log(JSON.stringify(canvas.get()));
-      $('#wrapper').fadeOut(500, function() {
-        $.get('server/logout', {}, function() {
-          window.location.reload();
-        });
-      });
-      return false;
-    });
-    
-    $('#wrapper').fadeIn(1000);
+    cb();
   }
   
   return { init: init };

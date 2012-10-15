@@ -2,7 +2,13 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
 
   var $node;
   
-  function init() {
+  function init(cb) {
+
+    if (window.user.login) {
+      window.location = '#/game';
+      return;
+    }
+
     $node = $('#content');
     var template=_.template(TLogin);
     $node.empty().append(template());
@@ -21,19 +27,7 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
             //var data={status:"OK", hasCharacter: false};
             if (data.status==="OK") {
               window.user = data;
-              if (data.hasCharacter) {
-                require(["mods/game"], function(Game) {
-                  $('#wrapper').fadeOut(500, function() {
-                    Game.init();
-                  });
-                });
-              } else {
-                require(["mods/create"], function(Create) {
-                  $('#wrapper').fadeOut(500, function() {
-                    Create.init();
-                  });
-                });
-              }
+              window.location = '#/game';
             } else {
               init();
               $node.prepend($('<div></div>').html('Wrong password or nickname already taken.'));
@@ -44,7 +38,7 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
       return false;
     });
 
-    $('#wrapper').fadeIn(1000);
+    cb();
   }
   
   return { init: init };

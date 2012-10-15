@@ -1,6 +1,6 @@
 <div id="create">
   <p>Hi <b>{{name}}</b>! Just a few steps before you can start your first game...</p>
-  <a href="#" id="logout">Logout</a>
+  <a href="#/logout" id="logout">Logout</a>
   <div class="canvases">
     <canvas id="main-canvas" width="400" height="400">
     </canvas>

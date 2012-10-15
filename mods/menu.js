@@ -45,25 +45,7 @@ define(["libs/text!templates/menu.tpl", "mods/login", "libs/text!drawings/menu.t
       var rect = {x:minx, y:miny, w:maxx-minx, h:maxy-miny};
       if (contains(rect, {x:350,y:0,w:237,h:299})) {
         canvas.pause(true);
-        $('#wrapper').fadeOut(500, function() {
-          if (window.user.login) {
-            if (window.user.hasCharacter) {
-              require(["mods/game"], function(Game) {
-                $('#wrapper').fadeOut(500, function() {
-                  Game.init();
-                });
-              });
-            } else {
-              require(["mods/create"], function(Create) {
-                $('#wrapper').fadeOut(500, function() {
-                  Create.init();
-                });
-              });
-            }
-          } else {
-            Login.init();
-          }
-        });
+        window.location = '#/login';
       } else if (contains(rect, {x:205,y:111,w:150,h:134})) {
         canvas.pause(true);
         window.location = '#/about';

@@ -1,7 +1,7 @@
 <div id="game">
   <p>Hi <b>{{name}}</b>! Welcome in Ponyack!</p>
   <p>Use keyboard arrows to move your character.</p>
-  <a href="#" id="logout">Logout</a>
+  <a href="#/logout" id="logout">Logout</a>
   <div class="canvases">
     <canvas id="main-canvas" width="600" height="400">
     </canvas>

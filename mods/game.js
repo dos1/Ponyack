@@ -3,6 +3,16 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
   var $node;
 
   function init(id, cb) {
+
+    if (!window.user.login) {
+      window.location = '#/login';
+      return;
+    }
+    if (!window.user.hasCharacter) {
+      window.location = '#/game/create';
+      return;
+    }
+
     $node = $('#content');
     var template;
     if (id) {
@@ -14,16 +24,6 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
 
     var chcanvas = Canvas.init($node.find('#character-canvas'));
     chcanvas.pause(true);
-
-    $node.find('#logout').on('click', function() {
-      //console.log(JSON.stringify(canvas.get()));
-      $('#wrapper').fadeOut(500, function() {
-        $.get('server/logout', {}, function() {
-          window.location.reload();
-        });
-      });
-      return false;
-    });
 
     var data = {};
     if (id) data.id = id;
