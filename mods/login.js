@@ -11,12 +11,6 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
     //canvas.pause(true);
     canvas.draw(26, 23, JSON.parse(DLogin), 1);
     
-    $node.find('#return').on('click', function() {
-      //console.log(JSON.stringify(canvas.get()));
-      window.location.reload();
-      return false;
-    });
-
     $node.find('form').on('submit', function() {
       var login = $('#nickname').val(), pass = $('#pass').val();
       if (!(login && pass)) return false;

@@ -89,9 +89,7 @@ function restrict(req, res, next) {
   if (req.session.user) {
     next();
   } else {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify({status:'Not logged in.'}));
-    res.end();
+    res.json({status:'Not logged in.'});
   }
 }
 
@@ -122,18 +120,14 @@ app.post(config.server.prefix+'/login', function(req, res){
           // or in this case the entire user object
           console.log('success');
           req.session.user = user;
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.write(JSON.stringify({status:'OK', login: user.login, hasCharacter: hasCharacter }));
-          res.end();
+          res.json({status:'OK', login: user.login, hasCharacter: hasCharacter });
         });
       });
     }
 
     if (err && err!=="user") {
       console.log('error');
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.write(JSON.stringify({status:'NOK'}));
-      res.end();
+      res.json({status:'NOK'});
       return;
     }
     if (err==="user") {
@@ -175,9 +169,7 @@ app.get(config.server.prefix+'/login', function(req, res) {
   var login = '';
   hasCharacter(req.session.user, function(err, hasCharacter) {
     if (req.session.user) { login=req.session.user.login; }
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify({login:login, hasCharacter: hasCharacter}));
-    res.end();
+    res.json({login:login, hasCharacter: hasCharacter});
   });
 });
 
@@ -208,9 +200,27 @@ app.get(config.server.prefix+'/character', function(req, res) {
   });
 });
 
+app.get(config.server.prefix+'/player', function(req, res) {
+  var user = 0;
+  if (req.query.id) user = req.query.id;
+  console.log('GET /player', user, req.session.user ? req.session.user.id : -1, req.session.user ? req.session.user.login : -1);
+  db(["SELECT id, login FROM users WHERE id = "+quoteStr(user), "SELECT users.id FROM users, characters WHERE characters.uid = users.id AND users.id > "+quoteStr(user)+" ORDER BY characters.uid ASC LIMIT 1", "SELECT users.id FROM users, characters WHERE characters.uid = users.id AND users.id < "+quoteStr(user)+" ORDER BY characters.uid DESC LIMIT 1"], function(err, r) {
+    if (err) throw(err);
+    if (r[0][0]) {
+      r[0][0].next = r[1][0] ? r[1][0].id : -1;
+      r[0][0].prev = r[2][0] ? r[2][0].id : -1;
+      res.json(r[0][0]);
+    } else {
+      res.writeHead(404);
+      res.write('');
+      res.end();
+    }
+  });
+});
+
 app.get(config.server.prefix+'/players', function(req, res) {
   console.log('GET /players', req.session.user ? req.session.user.login : -1);
-  db("SELECT users.login, users.id FROM users, characters WHERE characters.uid = users.id", function(err, r) {
+  db("SELECT users.login, users.id FROM users, characters WHERE characters.uid = users.id ORDER BY characters.uid", function(err, r) {
     if (err) throw(err);
     res.json(r[0]);
   });

@@ -1,5 +1,12 @@
-define(["mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/text!drawings/about.txt", "libs/text!drawings/explore.txt", "libs/canvas", "libs/jquery", "libs/underscore"], function(Login, DMenu, DStart, DAbout, DExplore, Canvas) {
+define(["libs/text!templates/menu.tpl", "mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/text!drawings/about.txt", "libs/text!drawings/explore.txt", "libs/canvas", "libs/jquery", "libs/underscore"], function(TMenu, Login, DMenu, DStart, DAbout, DExplore, Canvas) {
+
+  var $node;
+
   function init() {
+    $node = $('#content');
+    var template=_.template(TMenu);
+    $node.empty().append(template());
+
     var canvas = Canvas.init($('#main-canvas'));
 
     var delay = 1;
@@ -59,22 +66,10 @@ define(["mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.t
         });
       } else if (contains(rect, {x:205,y:111,w:150,h:134})) {
         canvas.pause(true);
-        $('#wrapper').fadeOut(500, function() {
-              require(["mods/about"], function(About) {
-                $('#wrapper').fadeOut(500, function() {
-                  About.init();
-                });
-              });
-        });
+        window.location = '#/about';
       } else if (contains(rect, {x:35,y:147,w:151,h:139})) {
         canvas.pause(true);
-        $('#wrapper').fadeOut(500, function() {
-              require(["mods/explore"], function(Explore) {
-                $('#wrapper').fadeOut(500, function() {
-                  Explore.init();
-                });
-              });
-        });
+        window.location = '#/explore';
       } else {
         refresh();
       }

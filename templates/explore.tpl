@@ -3,6 +3,6 @@
   <div id="players">
 
   </div>
-  <a href="#" id="return">Return to main menu.</a>
+  <a href="#/" id="return">Return to main menu.</a>
   <div class="clear"></div>
 </div>

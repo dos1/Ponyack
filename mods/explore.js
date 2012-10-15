@@ -2,19 +2,15 @@ define(["libs/text!templates/explore.tpl", "libs/text!drawings/about.txt", "libs
 
   var $node;
   
-  function init() {
+  function init(cb) {
     $node = $('#content');
     var template=_.template(TExplore);
     $node.empty().append(template());
 
-    $node.find('#return').on('click', function() {
-      window.location.reload();
-      return false;
-    });
-
     $.get('server/players', {}, function(d) {
       _.each(d, function(u) {
-        $('<a href="#"></a>').appendTo($node.find('#players')).on('click', function() { 
+        $('<a href="#/explore/'+u.id+'"></a>').appendTo($node.find('#players')).text(u.login);
+     /*.on('click', function() { 
      $('#wrapper').fadeOut(500, function() {
         $node.html('Please wait...');
         $('#wrapper').fadeIn(500, function() {
@@ -25,9 +21,9 @@ define(["libs/text!templates/explore.tpl", "libs/text!drawings/about.txt", "libs
           });
         });  
      }); return false;       
-        }).text(u.login);
+        }).text(u.login);*/
       });
-      $('#wrapper').fadeIn(1000);
+      cb();
     }, 'json');
   }
   

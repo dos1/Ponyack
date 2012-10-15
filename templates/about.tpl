@@ -14,6 +14,6 @@
   <hr/>
   <p>After a long time of... well, nothing, some mysterious force choosed you to fulfil some very important task. You have to recreate this world.</p>
   <p>And the only thing you got is... your <b>pencil</b>.</p>
-  <a href="#" id="return">Return to main menu.</a>
+  <a href="#/" id="return">Return to main menu.</a>
   <div class="clear"></div>
 </div>

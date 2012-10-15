@@ -2,7 +2,7 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
 
   var $node;
 
-  function init(id, name) {
+  function init(id, cb) {
     $node = $('#content');
     var template;
     if (id) {
@@ -10,12 +10,10 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
     } else {
       template=_.template(TGame);
     }
-    $node.empty().append(template({name:$("<div></div>").text(window.user.login).html(), player: $("<div></div>").text(name).html() }));
+    $node.empty().append(template({name:$("<div></div>").text(window.user.login).html() }));
 
     var chcanvas = Canvas.init($node.find('#character-canvas'));
     chcanvas.pause(true);
-
-   $node.find('#return').on('click', function() { window.location.reload(); return false; });
 
     $node.find('#logout').on('click', function() {
       //console.log(JSON.stringify(canvas.get()));
@@ -93,6 +91,25 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
         y+=5;
       } 
     })();
+
+    if (id) {
+      $.get('server/player', {id:id}, function(user) {
+        $node.find('.playerName').text(user.login);
+        if (user.next>0) {
+          $node.find('#next').attr('href', '#/explore/'+user.next);
+        } else {
+          $node.find('#next').remove();
+        }
+        if (user.prev>0) {
+          $node.find('#prev').attr('href', '#/explore/'+user.prev);
+        } else {
+          $node.find('#prev').remove();
+        }
+        if (cb) { cb(); }
+      }, 'json');
+    } else {
+      if (cb) { cb(); }
+    }
   }
 
   return { init: init };
