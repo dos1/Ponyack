@@ -22,7 +22,7 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
     }
     $node.empty().append(template({name:$("<div></div>").text(window.user.login).html() }));
 
-    var chcanvas = Canvas.init($node.find('#character-canvas'));
+    var chcanvas = Canvas.init($('<canvas width="400" height="400"></canvas>'));
 
     var data = {};
     if (id) data.id = id;
