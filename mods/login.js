@@ -13,7 +13,7 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
     var template=_.template(TLogin);
     $node.empty().append(template());
 
-    var canvas = Canvas.init($node.find('canvas'));
+    var canvas = Canvas.init($node.find('canvas'), true);
     //canvas.pause(true);
     canvas.draw(26, 23, JSON.parse(DLogin), 1);
     

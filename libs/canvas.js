@@ -1,6 +1,6 @@
 define(["libs/underscore"], function() {
 
-  function init ($el) {
+  function init ($el, supportDrawing) {
     var canvas, context, canvaso, contexto, lines = [], animation = { inprogress: false, skip: false }, callbacks = [], paused = false;
 
     // The general-purpose event handler. This function just determines the mouse
@@ -51,25 +51,33 @@ define(["libs/underscore"], function() {
     // #imageTemp is cleared. This function is called each time when the user
     // completes a drawing operation.
     function img_update () {
-      context.lineJoin = "round";
+      var con = context;
+      if (!supportDrawing) {
+        con = contexto;
+        //context.clearRect(0, 0, canvaso.width, canvaso.height);
+      }
+
+      con.lineJoin = "round";
       
       for(var i=0; i < lines.length; i++)
       {
         if (!lines[i][3]) {
-          context.beginPath();
+          con.beginPath();
           if (!lines[i][2] && i){
-            context.moveTo(lines[i-1][0], lines[i-1][1]);
+            con.moveTo(lines[i-1][0], lines[i-1][1]);
           } else {
-            context.moveTo(lines[i][0], lines[i][1]);
+            con.moveTo(lines[i][0], lines[i][1]);
           }
-          context.lineTo(lines[i][0], lines[i][1]);
-          context.closePath();
-          context.stroke();
+          con.lineTo(lines[i][0], lines[i][1]);
+          con.closePath();
+          con.stroke();
           lines[i][3]=true;
         }
       }
-      contexto.drawImage(canvas, 0, 0);
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      if (supportDrawing) {
+        contexto.drawImage(canvas, 0, 0);
+        con.clearRect(0, 0, canvas.width, canvas.height);
+      }
     }
     
     // This object holds the implementation of each drawing tool.
@@ -204,21 +212,23 @@ define(["libs/underscore"], function() {
       return;
     }
 
-    // Add the temporary canvas.
-    var container = canvaso.parentNode;
-    canvas = document.createElement('canvas');
-    if (!canvas) {
-      alert('Error: I cannot create a new canvas element!');
-      return;
+    if (supportDrawing) {
+      // Add the temporary canvas.
+      var container = canvaso.parentNode;
+      canvas = document.createElement('canvas');
+      if (!canvas) {
+        alert('Error: I cannot create a new canvas element!');
+        return;
+      }
+
+      canvas.id     = canvaso.id+'imageTemp';
+      canvas.setAttribute('class', 'imageTemp');
+      canvas.width  = canvaso.width;
+      canvas.height = canvaso.height;
+      container.appendChild(canvas);
+
+      context = canvas.getContext('2d');
     }
-
-    canvas.id     = canvaso.id+'imageTemp';
-    canvas.setAttribute('class', 'imageTemp');
-    canvas.width  = canvaso.width;
-    canvas.height = canvaso.height;
-    container.appendChild(canvas);
-
-    context = canvas.getContext('2d');
 
     // Get the tool select input.
     /*var tool_select = document.getElementById('dtool');
@@ -234,11 +244,13 @@ define(["libs/underscore"], function() {
       //tool_select.value = tool_default;
     }
 
-    // Attach the mousedown, mousemove and mouseup event listeners.
-    canvas.addEventListener('mousedown', ev_canvas, false);
-    canvas.addEventListener('mousemove', ev_canvas, false);
-    canvas.addEventListener('mouseout',  ev_canvas, false);
-    canvas.addEventListener('mouseup',   ev_canvas, false);
+    if (supportDrawing) {
+      // Attach the mousedown, mousemove and mouseup event listeners.
+      canvas.addEventListener('mousedown', ev_canvas, false);
+      canvas.addEventListener('mousemove', ev_canvas, false);
+      canvas.addEventListener('mouseout',  ev_canvas, false);
+      canvas.addEventListener('mouseup',   ev_canvas, false);
+    }
 
     // public
 
@@ -318,8 +330,10 @@ define(["libs/underscore"], function() {
     
     function clear() {
       lines = [];
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      contexto.clearRect(0, 0, canvas.width, canvas.height);
+      if (supportDrawing) {
+        context.clearRect(0, 0, canvaso.width, canvaso.height);
+      }
+      contexto.clearRect(0, 0, canvaso.width, canvaso.height);
     }
 
     function addCallback(callback) {
@@ -331,8 +345,10 @@ define(["libs/underscore"], function() {
     }
 
     function undo() {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      contexto.clearRect(0, 0, canvas.width, canvas.height);
+      if (supportDrawing) {
+        context.clearRect(0, 0, canvaso.width, canvaso.height);
+      }
+      contexto.clearRect(0, 0, canvaso.width, canvaso.height);
       var i = lines.length-1;
       if (i<0) return;
       while (!lines[i][2]) {

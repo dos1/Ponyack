@@ -7,7 +7,7 @@ define(["libs/text!templates/menu.tpl", "mods/login", "libs/text!drawings/menu.t
     var template=_.template(TMenu);
     $node.empty().append(template());
 
-    var canvas = Canvas.init($('#main-canvas'));
+    var canvas = Canvas.init($('#main-canvas'), true);
 
     var delay = 1;
     var skip = function() { delay = 0; };

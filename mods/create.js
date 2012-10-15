@@ -17,10 +17,9 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
     var template=_.template(TCreate);
     $node.empty().append(template({name:$("<div></div>").text(window.user.login).html()}));
     
-    var canvas = Canvas.init($node.find('#main-canvas'));
+    var canvas = Canvas.init($node.find('#main-canvas'), true);
     var canvasderp = Canvas.init($node.find('#secondary-canvas'));
     canvasderp.draw(21, 30, JSON.parse(DDerpy), 1, 3);
-    canvasderp.pause(true);
     
     $node.find('#undo').on('click', function() {
       //console.log(JSON.stringify(canvasderp.get()));

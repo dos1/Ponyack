@@ -7,7 +7,7 @@ define(["libs/text!templates/about.tpl", "libs/text!drawings/about.txt", "libs/c
     var template=_.template(TAbout);
     $node.empty().append(template());
 
-    var canvas = Canvas.init($node.find('canvas'));
+    var canvas = Canvas.init($node.find('canvas'), true);
     //canvas.pause(true);
     canvas.draw(26, 23, JSON.parse(DAbout), 1);
   }
