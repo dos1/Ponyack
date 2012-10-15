@@ -21,7 +21,7 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
     var chcanvas = Canvas.init($('<canvas width="400" height="400"></canvas>'));
 
     $.get('server/character', {}, function(data) {
-      chcanvas.draw(0, 0, data, 1, 15);
+      chcanvas.draw(0, 0, data, 15, 10);
       $('#wrapper').fadeIn(1000);
     }, 'json');
 

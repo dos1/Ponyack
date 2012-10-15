@@ -27,6 +27,7 @@ h1, h2 {
 h2 {
   font-family: 'Open Sans Condensed', 'Open Sans', sans-serif;
   font-weight: 300;
+
   padding-top: 5px;
 }
 h1 {
@@ -161,10 +162,11 @@ a:hover {
   display: inline-block;
   min-width: 80px;
 }
-#logout {
+#logout, .right {
   position: absolute;
   right: 0px;
   top: 0px;
+  margin: 0;
 }
 #game, #character {
   position: relative;
@@ -217,4 +219,71 @@ hr {
 }
 #character #next {
   right: -30px;
+}
+#intro .screen h1 {
+  font-family: 'Open Sans',sans-serif;
+  font-size: 80px;
+  position: absolute;
+  top: 90px;
+  left: 30px;
+}
+#intro .screen h2 {
+  font-size: 40px;
+  position: absolute;
+  top: 230px;
+  right: 40px;
+}
+#intro .screen.big h1 {
+  font-size: 100px;
+  font-weight: 600;
+}
+#intro .screen {
+  width: 600px;
+  height: 400px;
+  position: relative;
+  margin: 10px auto;
+  display: none;
+}
+#intro b {
+  font-weight: 600;
+}
+#intro .screen h1, #intro .screen h2 {
+  transition: all 3000ms;
+  opacity: 0;
+}
+#intro .screen.active h1.active {
+  left: 70px;
+  opacity: 1;
+}
+#intro .screen.welcome.active h1.active {
+  font-size: 100px;
+}
+#intro .screen.active h2.active {
+  right: 60px;
+  opacity: 1;
+}
+#intro .screen.empty h2 {
+  left: 50px;
+}
+#intro .screen.empty.active h2.active {
+  left: 50px;
+}
+#intro .screen.empty.active h2.active {
+  right: 0px;
+}
+#intro .screen.empty.active h2.active {
+  right: 220px;
+}
+#intro .screen.takethis.active h1.active {
+  top: 110px;
+}
+#intro .screen.takethis.active h2.active {
+  top: 220px;
+}
+#intro .screen.big.active h1.active {
+  left: 30px;
+  top: 120px;
+}
+.infobar {
+  text-align: center;
 }

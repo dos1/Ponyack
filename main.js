@@ -60,6 +60,12 @@ define(['mods/menu','libs/path', 'libs/jquery', 'libs/underscore'], function(Men
     });
   });
 
+  AddRoute("/game/intro", function(cb) {
+    require(['mods/intro'], function(Intro) {
+      Intro.init(cb);
+    });
+  });
+
   AddRoute("/game/create", function(cb) {
     require(['mods/create'], function(Create) {
       Create.init(cb);

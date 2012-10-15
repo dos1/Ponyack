@@ -17,4 +17,3 @@
   <a href="#" id="done">I'm done!</a>
   <div class="clear"></div>
 </div>
-<p>Coming soon: eraser, rectangle, line and animation tools.</p>

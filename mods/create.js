@@ -44,7 +44,7 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
         $('#wrapper').fadeIn(500, function() {
           $.post('server/character', {data:JSON.stringify(character)}, function(data) {
             window.user.hasCharacter = true;
-            window.location = '#/game';
+            window.location = '#/game/intro';
           }, 'json').error(function() { alert('Error!'); window.location.reload(); });
         });
       });
