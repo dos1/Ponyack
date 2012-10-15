@@ -5,11 +5,11 @@ define(["libs/text!templates/game.tpl", "libs/text!templates/anongame.tpl", "lib
   function init(id, cb) {
 
     if (!window.user.login) {
-      window.location = '#/login';
+      window.location.replace('#/login');
       return;
     }
     if (!window.user.hasCharacter) {
-      window.location = '#/game/create';
+      window.location.replace('#/game/create');
       return;
     }
 

@@ -5,11 +5,11 @@ define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/
   function init(cb) {
 
     if (window.user.hasCharacter) {
-      window.location = '#/game';
+      window.location.replace('#/game');
       return;
     }
     if (!window.user.login) {
-      window.location = '#/login';
+      window.location.replace('#/login');
       return;
     }
 

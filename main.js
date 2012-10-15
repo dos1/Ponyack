@@ -76,7 +76,7 @@ define(['mods/menu','libs/path', 'libs/jquery', 'libs/underscore'], function(Men
 
   Path.root("#/");
   Path.rescue(function() {
-    $('#content').html('Error, path not found.').show();
+    window.location.replace('#/');
   });
 
   $(function() {

@@ -5,7 +5,7 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
   function init(cb) {
 
     if (window.user.login) {
-      window.location = '#/game';
+      window.location.replace('#/game');
       return;
     }
 
@@ -27,7 +27,7 @@ define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/c
             //var data={status:"OK", hasCharacter: false};
             if (data.status==="OK") {
               window.user = data;
-              window.location = '#/game';
+              window.location.replace('#/game');
             } else {
               init();
               $node.prepend($('<div></div>').html('Wrong password or nickname already taken.'));
