@@ -1,4 +1,4 @@
-define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/underscore"], function(TGame, Canvas) {
+define(["libs/text!templates/game.tpl", "mods/canvas", "libs/jquery", "libs/underscore"], function(TGame, Canvas) {
 
   var $node;
 

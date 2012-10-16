@@ -1,4 +1,4 @@
-define(["libs/text!templates/character.tpl", "libs/canvas", "libs/jquery", "libs/underscore"], function(TCharacter, Canvas) {
+define(["libs/text!templates/character.tpl", "mods/canvas", "libs/jquery", "libs/underscore"], function(TCharacter, Canvas) {
 
   var $node;
 

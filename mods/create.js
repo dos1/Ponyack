@@ -1,4 +1,4 @@
-define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "libs/canvas", "libs/jquery", "libs/underscore"], function(TCreate, DDerpy, Canvas) {
+define(["libs/text!templates/create.tpl", "libs/text!drawings/derpy.txt", "mods/canvas", "libs/jquery", "libs/underscore"], function(TCreate, DDerpy, Canvas) {
   
   var $node;
   

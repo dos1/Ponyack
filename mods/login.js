@@ -1,4 +1,4 @@
-define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "libs/canvas", "libs/jquery", "libs/underscore"], function(TLogin, DLogin, Canvas) {
+define(["libs/text!templates/login.tpl", "libs/text!drawings/login.txt", "mods/canvas", "libs/jquery", "libs/underscore"], function(TLogin, DLogin, Canvas) {
 
   var $node;
   

@@ -1,4 +1,4 @@
-define(["libs/text!templates/intro.tpl", "libs/text!drawings/intro.txt", "libs/canvas", "libs/jquery", "libs/underscore"], function(TIntro, DIntro, Canvas) {
+define(["libs/text!templates/intro.tpl", "libs/text!drawings/intro.txt", "mods/canvas", "libs/jquery", "libs/underscore"], function(TIntro, DIntro, Canvas) {
 
   var $node;
   

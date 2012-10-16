@@ -1,4 +1,4 @@
-define(["libs/text!templates/menu.tpl", "mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/text!drawings/about.txt", "libs/text!drawings/explore.txt", "libs/canvas", "libs/jquery", "libs/underscore"], function(TMenu, Login, DMenu, DStart, DAbout, DExplore, Canvas) {
+define(["libs/text!templates/menu.tpl", "mods/login", "libs/text!drawings/menu.txt", "libs/text!drawings/start.txt", "libs/text!drawings/about.txt", "libs/text!drawings/explore.txt", "mods/canvas", "libs/jquery", "libs/underscore"], function(TMenu, Login, DMenu, DStart, DAbout, DExplore, Canvas) {
 
   var $node;
 

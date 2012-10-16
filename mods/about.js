@@ -1,4 +1,4 @@
-define(["libs/text!templates/about.tpl", "libs/text!drawings/about.txt", "libs/canvas", "libs/jquery", "libs/underscore"], function(TAbout, DAbout, Canvas) {
+define(["libs/text!templates/about.tpl", "libs/text!drawings/about.txt", "mods/canvas", "libs/jquery", "libs/underscore"], function(TAbout, DAbout, Canvas) {
 
   var $node;
   

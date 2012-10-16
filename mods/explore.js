@@ -1,4 +1,4 @@
-define(["libs/text!templates/explore.tpl", "libs/text!drawings/about.txt", "libs/canvas", "libs/jquery", "libs/underscore"], function(TExplore, Canvas) {
+define(["libs/text!templates/explore.tpl", "libs/text!drawings/about.txt", "mods/canvas", "libs/jquery", "libs/underscore"], function(TExplore, Canvas) {
 
   var $node;
   
