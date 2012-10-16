@@ -19,6 +19,7 @@ define(['mods/menu','libs/path', 'libs/jquery', 'libs/underscore'], function(Men
     Path.map("#"+route).to(function () {
       var params = this.params;
       if (leave) leave();
+      $(document).off('keydown').off('keyup');
       $('#loading').fadeIn(500);
       $('#wrapper').fadeOut(500, function() {
         callback(function() {

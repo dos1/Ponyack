@@ -26,6 +26,22 @@ define(["libs/text!templates/character.tpl", "libs/canvas", "libs/jquery", "libs
         } else {
           $node.find('#prev').remove();
         }
+
+        var arrow = {left: 37, up: 38, right: 39, down: 40 };
+
+        $(document).on('keydown', function (e) {
+          keyCode = e.keyCode || e.which;
+          if (keyCode == arrow.left) {
+            if (user.prev>0) {
+               window.location = '#/explore/'+user.prev;
+            }
+          } else if (keyCode == arrow.right) {
+            if (user.next>0) {
+              window.location = '#/explore/'+user.next;
+            }
+          }
+        });
+
         if (cb) { cb(); }
       }, 'json');
     }, 'json');

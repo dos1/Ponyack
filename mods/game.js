@@ -34,7 +34,7 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
     var arrow = {left: 37, up: 38, right: 39, down: 40 };
     var arrows = {};
 
-    $(document).keydown(function (e) {
+    $(document).on('keydown',function (e) {
       keyCode = e.keyCode || e.which;
       arrows[keyCode] = true;
       if (keyCode == arrow.left) {
@@ -46,7 +46,7 @@ define(["libs/text!templates/game.tpl", "libs/canvas", "libs/jquery", "libs/unde
         return false;
       }
     });
-    $(document).keyup(function (e) {
+    $(document).on('keyup',function (e) {
       keyCode = e.keyCode || e.which;
       arrows[keyCode] = false;
     });
